@@ -1,0 +1,104 @@
+/*
+   statusbar-overlay sets the background color for the overlay. Black text is the default when the statusbar plugin is not added. When the
+   statusbar plugin is added, it also adds default setting to make the content white via:
+
+       <preference name="StatusBarStyle" value="lightcontent"/>
+
+   Setting the background color to black will allow the default light content (white text/icons) to show on it. The statusbar plugin is included
+   in the config.xml file and will be added by the CLI when you build locally.
+
+   See https://github.com/apache/cordova-plugin-statusbar
+*/
+
+.page-content{
+    background-color: #dee4ff;
+}
+
+.statusbar-overlay {
+    background: #000000;
+}
+
+.linksb {
+	float: left;
+	margin-right: 10px;
+}
+
+#idTest {
+	margin: 0 5%;
+	background-color: #dee4ff;
+}
+
+/*
+.clVideos:nth-child(odd) { background-color: #ddd} */
+.clVideos:nth-child(even) { 
+    background-color: #c1ccfa; 
+    color: #161a2d;
+    border-radius: 5px;
+}
+.clVideos:nth-child(odd) {
+    background-color: #abb8f1;
+    color: #161a2d;
+    border-radius: 5px;
+}
+
+.navbar-inner{
+    background-color: #abb8f1;
+
+}
+
+a {
+    color: #dee4ff;
+}
+
+
+#brrt{
+    position: absolute;
+    max-height: 55%;
+    
+}
+
+.centered {
+	text-align: center;
+}
+
+
+
+.clVideos {
+    
+    min-height: 90px;
+	padding: 5px;
+	padding-top: 5%;
+	padding-bottom: 5%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+    
+}
+
+table.tableizer-table {
+	margin-left:auto; 
+    margin-right:auto;
+	font-size: 10px;
+	border: 1px solid #CCC; 
+	font-family: Arial, Helvetica, sans-serif;
+} 
+.tableizer-table td {
+	padding: 4px;
+	margin: 3px;
+	border: 1px solid #CCC;
+}
+.tableizer-table th {
+	background-color: #104E8B; 
+	color: #FFF;
+	font-weight: bold;
+}
+
+#idVideoText {
+    margin-top: auto;
+    font-size: 2.2vh;
+}
+
+#idVideoDate {
+    margin: 0;
+    font-size: 2.2vh;
+    float: right;
+}
