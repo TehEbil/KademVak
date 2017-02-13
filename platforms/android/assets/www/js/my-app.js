@@ -75,11 +75,11 @@ function initialize()
 	// Fertig Geladen
 	if(!checkConnection())
 	{
+		alert("No Internet.")
 		document.addEventListener("online", testtest, true);
 	}
 	else
-	{
-		
+	{	
 		getVideos("ahsiyet");
 		SetupJSAPI();
 	}

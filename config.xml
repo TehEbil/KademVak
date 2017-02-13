@@ -20,11 +20,11 @@ xmlns:gap="http://phonegap.com/ns/1.0">
         <preference name="android-minSdkVersion" value="14" />
         <allow-intent href="market:*" />
     </platform>
-    <!--platform name="ios">
+    <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
         <preference name="BackupWebStorage" value="none" />
-    </platform-->
+    </platform>
     <preference name="DisallowOverscroll" value="true" />
     <preference name="permissions" value="none" />
 	
