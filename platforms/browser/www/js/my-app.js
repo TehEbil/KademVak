@@ -75,8 +75,10 @@ function initialize()
 		document.addEventListener("online", testtest, true);
 	}
 	else
+	{
 		getVideos("ahsiyet");
-	
+		SetupJSAPI();
+	}
 	SetupFullscreen();
 	
 	
@@ -85,9 +87,19 @@ function initialize()
     document.addEventListener("menubutton", onMenuKeyDown, false);
 }
 
+function SetupJSAPI()
+{
+	var tag = document.createElement('script');
+
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+}
+
 function testtest()
 {
-		getVideos("ahsiyet");
+	SetupJSAPI();
+	getVideos("ahsiyet");
 }
 
 function onPause() {
@@ -116,8 +128,8 @@ function SetupFullscreen()
 	});
 */	
     document.addEventListener("webkitfullscreenchange", function(e) {
-		if (document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
-			StatusBar.hide();
+		if (IsFullscreen()) {
+			//StatusBar.hide();
 			alert("Fullscreen")
 		} else {
 			StatusBar.show();
@@ -127,12 +139,8 @@ function SetupFullscreen()
 }
 
 
-function IsFullscreen()
-{
-	if(document.fullscreen || document.webkitIsFullScreen || document.mozFullScreen)
-		return true;
-	else
-		return false;
+function IsFullscreen() {
+	return document.fullscreen || document.webkitIsFullScreen || document.mozFullScreen
 }
 
 function getVideos(pVideoTitle)
