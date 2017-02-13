@@ -108,7 +108,8 @@ function testtest()
 }
 
 function onPause() {
-    player.pauseVideo();
+	if(player != null)
+		player.pauseVideo();
 }
 
 function onResume() {
@@ -116,7 +117,8 @@ function onResume() {
 }
 
 function onMenuKeyDown() {
-    player.pauseVideo();
+	if(player != null)
+		player.pauseVideo();
 }
 
 
@@ -299,7 +301,6 @@ function onYouTubeIframeAPIReady() {
 
  // 4. The API will call this function when the video player is ready.
   function onPlayerReady(event) {
-		event.target.setPlaybackQuality('hd720');
   }
 
   // 5. The API calls this function when the player's state changes.
@@ -308,7 +309,7 @@ function onYouTubeIframeAPIReady() {
   var done = false;
   function onPlayerStateChange(event) {
 	 if (event.data == YT.PlayerState.BUFFERING) {
-		event.target.setPlaybackQuality('hd720');
+		//event.target.setPlaybackQuality('hd720');
 	}
 	if (event.data == YT.PlayerState.PLAYING && !done) {
 		//setTimeout(function(){ $('idOnFullScreenPic').css("display: none;"); alert("Test"); }, 3000);
@@ -325,7 +326,7 @@ function onYouTubeIframeAPIReady() {
 
 function ChangeVideo(vidId)
 {
-	console.log(player);
+	//console.log(player);
 	player.loadVideoById(vidId);
 
 //	player.videoId = vidId;
