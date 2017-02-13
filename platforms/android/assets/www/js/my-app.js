@@ -275,13 +275,12 @@ function getVideos(pVideoTitle)
 }
 function onYouTubeIframeAPIReady() {
 	console.log(firstVid);
-	if(counter <= 60 && (firstVid == null || firstVid == ""))
+	if(counter <= 40 && (firstVid == null || firstVid == ""))
 	{
 		setTimeout(onYouTubeIframeAPIReady, 250)
 		counter++;
 		return;
 	}
-	alert(counter);
 	
 	  player = new YT.Player('player', {
 	  height: '250',
@@ -337,7 +336,6 @@ function ChangeVideo(vidId)
 
 function checkConnection()
 {
-	alert("T3")
 	/*
     var networkState = navigator.connection.type;
 
