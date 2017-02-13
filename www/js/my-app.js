@@ -72,7 +72,8 @@ function initialize()
 	if(!checkConnection())
 	{
 		alert("internet yok kardes");
-		document.addEventListener("online", getVideos("ahsiyet"), true);
+		document.addEventListener("online", testtest, true);
+		document.addEventListener("online", testtest(), true);
 	}
 	else
 		getVideos("Edebiyat");
@@ -83,6 +84,11 @@ function initialize()
     document.addEventListener("pause", onPause, false);
     document.addEventListener("resume", onResume, false);
     document.addEventListener("menubutton", onMenuKeyDown, false);
+}
+
+function testtest()
+{
+	alert("HALLOOOOO");
 }
 
 function onPause() {
@@ -122,7 +128,7 @@ function SetupFullscreen()
 
 function IsFullscreen()
 {
-	return document.body.clientHeight == screen.height && document.body.clientWidth == screen.width;
+	return webkitIsFullScreen;
 }
 
 function getVideos(pVideoTitle)
