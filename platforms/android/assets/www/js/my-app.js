@@ -103,7 +103,7 @@ function SetupJSAPI()
 function testtest()
 {
 	SetupJSAPI();
-	getVideos();
+	getVideos("ahsiyet");
 }
 
 function onPause() {
@@ -147,7 +147,7 @@ function IsFullscreen() {
 	return document.fullscreen || document.webkitIsFullScreen || document.mozFullScreen
 }
 
-function getVideos(pVideoTitle)
+function getVideos(pVideoTitle = "ahsiyet")
 {
 		
 	markup_o = ""
