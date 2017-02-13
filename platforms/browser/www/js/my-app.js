@@ -94,11 +94,18 @@ function SetupJSAPI()
     tag.src = "https://www.youtube.com/iframe_api";
     var firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+	console.log(document)
 }
 
 function testtest()
 {
 	SetupJSAPI();
+	setTimeout(sibsib, 5000)
+}
+
+function sibsib()
+{
+	alert("Starting");
 	getVideos("ahsiyet");
 }
 
