@@ -280,6 +280,7 @@ function onYouTubeIframeAPIReady() {
 		counter++;
 		return;
 	}
+	alert(counter);
 	
 	  player = new YT.Player('player', {
 	  height: '250',
