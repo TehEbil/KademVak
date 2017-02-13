@@ -13,6 +13,9 @@ var myApp = new Framework7({
     // ... other parameters
 });
 
+var counter = 0;
+var firstVid = ""
+
 
 // If we need to use custom DOM library, let's save it to $$ variable:
 var $$ = Dom7;
@@ -94,19 +97,13 @@ function SetupJSAPI()
     tag.src = "https://www.youtube.com/iframe_api";
     var firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-	console.log(document)
+	console.log($$('#player'));
 }
 
 function testtest()
 {
 	SetupJSAPI();
-	setTimeout(sibsib, 5000)
-}
-
-function sibsib()
-{
-	alert("Starting");
-	getVideos("ahsiyet");
+	getVideos();
 }
 
 function onPause() {
@@ -154,7 +151,6 @@ function getVideos(pVideoTitle)
 {
 		
 	markup_o = ""
-	var firstVid = ""
 	var i = 0;
 	var tlist = [];
 	var nextPageToken = "";
@@ -272,6 +268,19 @@ function getVideos(pVideoTitle)
 	 
 	  
 	  
+
+	  
+	});
+}
+function onYouTubeIframeAPIReady() {
+	console.log(firstVid);
+	if(counter <= 60 && (firstVid == null || firstVid == ""))
+	{
+		setTimeout(onYouTubeIframeAPIReady, 250)
+		counter++;
+		return;
+	}
+	
 	  player = new YT.Player('player', {
 	  height: '250',
 	  width: '100%',
@@ -283,11 +292,8 @@ function getVideos(pVideoTitle)
 		'onStateChange': onPlayerStateChange
 	  }
 	}); 
-	  
-	});
 }
-
-
+//player.loadVideoById(vidId);
 
 
  // 4. The API will call this function when the video player is ready.
