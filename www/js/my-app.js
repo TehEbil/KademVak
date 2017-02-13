@@ -29,7 +29,6 @@ var mainView = myApp.addView('.view-main', {
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
 	
-	alert("T-1")
 	initialize();
 });
 
@@ -62,7 +61,6 @@ $$(document).on('pageInit', function (e) {
 
 function initialize()
 {
-	alert("T1")
 //	var re = /quick\s(brown).+?(jumps)/ig;
 //	var result = re.exec('The Quick Brown Fox Jumps Over The Lazy Dog');
 	
@@ -74,28 +72,23 @@ function initialize()
 	console.log(re[0]);
 	console.log(re[1]);
 	
-	alert("T2")
 	// Fertig Geladen
 	if(!checkConnection())
 	{
-		alert("T3-1")
 		document.addEventListener("online", testtest, true);
 	}
 	else
 	{
 		
-		alert("T3-2")
 		getVideos("ahsiyet");
 		SetupJSAPI();
 	}
-	alert("T4")
 	SetupFullscreen();
 	
 	
     document.addEventListener("pause", onPause, false);
     document.addEventListener("resume", onResume, false);
     document.addEventListener("menubutton", onMenuKeyDown, false);
-	alert("T5")
 }
 
 function SetupJSAPI()
@@ -106,15 +99,12 @@ function SetupJSAPI()
     var firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 	
-	alert("TJSST")
 }
 
 function testtest()
 {
 	SetupJSAPI();
 	getVideos("ahsiyet");
-	
-	alert("T6")
 }
 
 function onPause() {
@@ -158,7 +148,7 @@ function IsFullscreen() {
 	return document.fullscreen || document.webkitIsFullScreen || document.mozFullScreen
 }
 
-function getVideos(pVideoTitle = "ahsiyet")
+function getVideos(pVideoTitle)
 {
 		
 	markup_o = ""
