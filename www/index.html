@@ -12,6 +12,7 @@
         -->
     <!--meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *"-->
 
+	
     <!-- Required meta tags-->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
@@ -20,8 +21,8 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
 
-	<link href="http://vjs.zencdn.net/5.15.1/video-js.css" rel="stylesheet">
-	<script src="//vjs.zencdn.net/5.11/video.min.js"></script>
+	<!--link href="http://vjs.zencdn.net/5.15.1/video-js.css" rel="stylesheet">
+	<script src="//vjs.zencdn.net/5.11/video.min.js"></script-->
 	
 	
     <!-- Your app title -->
@@ -35,10 +36,16 @@
     <link rel="stylesheet" href="lib/framework7/css/framework7.ios.colors.min.css">
 
     <link rel="stylesheet" href="css/styles.css">
-	<script src="js/youtube.min.js"></script>
+	<!--script src="js/youtube.min.js"></script-->
+    <script type="text/javascript" src="https://www.youtube.com/iframe_api"></script>
 </head>
 
 <body>
+  <!--script src="http://vjs.zencdn.net/5.15.1/video.js"></script-->
+	<script type="text/template" id="myPage">
+
+
+	</script> 
     <!-- Status bar overlay for full screen mode (PhoneGap) -->
     <div class="statusbar-overlay"></div>
 
@@ -46,8 +53,10 @@
     <div class="panel-overlay"></div>
     <div class="panel panel-left panel-reveal">
         <div class="content-block">
+			 <div id="idSidebar"></div>
              <p><a href="program.html">YILI Faaliyet Programi</a></p>
              <p><a href="about.html">About</a></p>
+			 
 			 <p><a href="#" class="close-panel">Kapa(t)mak</a></p>
         </div>
     </div>
@@ -59,7 +68,7 @@
             <!-- Top Navbar-->
             <div class="navbar">
                 <div class="navbar-inner">
-                    <img id="brrt" src="logo.png" >
+                    <img id="brrt" src="logo.png">
                     <!-- We need cool sliding animation on title element, so we have additional "sliding" class -->
                     <div class="center sliding">
 						Öğrenci Gelişim Videoları
@@ -136,12 +145,10 @@
                 </div>
             </div>
         </div>
+			
     </div>
 
-  <!--script src="http://vjs.zencdn.net/5.15.1/video.js"></script-->
-	
-	
-    <script type="text/javascript" src="https://www.youtube.com/iframe_api"></script>
+
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="lib/framework7/js/framework7.min.js"></script>
     <script type="text/javascript" src="js/my-app.js"></script>

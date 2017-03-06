@@ -2,7 +2,8 @@
 
 var myApp = new Framework7({
     pushState: true,
-    swipePanel: 'left', 
+    swipePanel: 'left',
+	//skip_invisible: false,
 	
 	onAjaxStart: function (xhr) {
         myApp.showIndicator();
@@ -15,7 +16,51 @@ var myApp = new Framework7({
 
 var counter = 0;
 var firstVid = ""
+var player = null;
+var data_o;
 
+
+
+var push = PushNotification.init({
+    android: {
+        senderID: "492870102848"
+    },
+    browser: {
+        pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+    },
+    ios: {
+        alert: "true",
+        badge: "true",
+        sound: "true"
+    },
+    windows: {}
+});
+
+push.on('registration', function(data) {
+	console.log('registration event: ' + data.registrationId);
+});
+
+push.on('error', function(e) {
+	console.log("push error = " + e.message);
+});
+
+push.on('notification', function(data) {
+	console.log('notification event');
+	navigator.notification.alert(
+		data.message,         // message
+		null,                 // callback
+		data.title,           // title
+		'Ok'                  // buttonName
+	);
+});
+
+var strings = {
+	"sahsiyet": "Şahsiyet",
+	"edebiyat": "Edebiyat",
+	"dünya": "Dünya Fikir",
+	"düsünce": "Düşünce ve İfade",
+	"yaratilis": "Yaratılış ve Kişilik"
+}
 
 // If we need to use custom DOM library, let's save it to $$ variable:
 var $$ = Dom7;
@@ -58,20 +103,8 @@ $$(document).on('pageInit', function (e) {
     }
 })
 
-
 function initialize()
 {
-//	var re = /quick\s(brown).+?(jumps)/ig;
-//	var result = re.exec('The Quick Brown Fox Jumps Over The Lazy Dog');
-	
-    var str = "Edebiyat Dersi-05-2_20150103: İslam Tarihi"; 
-	var re = /\d+(-\d)*_\d+/g;
-	re.exec(str);
-
-	console.log(re);
-	console.log(re[0]);
-	console.log(re[1]);
-	
 	// Fertig Geladen
 	if(!checkConnection())
 	{
@@ -80,7 +113,8 @@ function initialize()
 	}
 	else
 	{	
-		getVideos("ahsiyet");
+		getVideos2("all");
+		//getVideos("Düşünce ve");
 		SetupJSAPI();
 	}
 	SetupFullscreen();
@@ -89,6 +123,7 @@ function initialize()
     document.addEventListener("pause", onPause, false);
     document.addEventListener("resume", onResume, false);
     document.addEventListener("menubutton", onMenuKeyDown, false);
+	
 }
 
 function SetupJSAPI()
@@ -101,10 +136,58 @@ function SetupJSAPI()
 	
 }
 
+
+function RegExTit(str)
+{
+	obj = {}
+
+	var re = /.*?(201\d)(\d{2})(\d{2})/
+	var result = re.exec(str);
+	if(result != null)
+		if(result[1] && result[2] && result[3])
+		{
+			obj.date = result[3]  + "." + result[2] + "." + result[1];
+			obj.year = result[1];
+			obj.month = result[2];
+			obj.day = result[3];
+		}
+
+
+	if(str.indexOf("ahsiyet") != -1)
+		obj.title = "Şahsiyet Düşünce Ve İfade Üzerine";
+	else if(str.indexOf("ünce ve") != -1)
+		obj.title = "Düşünce ve İfade";
+	else if(str.indexOf("Yaratılış") != -1)
+		obj.title = "Yaratılış ve Kişilik Dersi";
+		
+	if(obj.title != null)
+		return obj;
+
+	relist = [/.*?201\d\d{2}\d{2}:? ?:?_? ?(.*)/, /.*?201\d\d{2}\d{2}_(.*)/, /.*_([^0-9]*)/]
+
+
+	for( var key_s in relist)
+		if((obj.title = getTitle(str,relist[key_s])) != "")
+			return obj;
+
+	obj.title = "";
+	return obj;
+}
+
+function getTitle (str, re)
+{
+	var result = re.exec(str);
+	if(result != null)
+		if(result[1])
+			return result[1];
+	return "";
+}
+
+
 function testtest()
 {
+	getVideos2("all");
 	SetupJSAPI();
-	getVideos("ahsiyet");
 }
 
 function onPause() {
@@ -150,133 +233,114 @@ function IsFullscreen() {
 	return document.fullscreen || document.webkitIsFullScreen || document.mozFullScreen
 }
 
-function getVideos(pVideoTitle)
+
+
+function Titles()
 {
-		
+	kob = "";
+	for(var key_s in data_o)
+	{
+		for(var key2_s in data_o[key_s])
+		{
+			title = data_o[key_s][key2_s]['snippet']['title']
+			kob += '	"' + title + '",\n'
+			
+		}
+	}
+	console.log(kob);
+}
+
+function getVideos(pVideoTitle, init=false)
+{
+	//pVideoTitle = pVideoTitle.toLowerCase();
 	markup_o = ""
-	var i = 0;
 	var tlist = [];
-	var nextPageToken = "";
-/*	$$.getJSON('https://www.googleapis.com/youtube/v3/search?key=AIzaSyCojx3Q0iOXImM6EGs9J078x909ar1J_4A&channelId=UC7oSNT3soKfhI2jsFHinXSA&part=snippet,id&order=date&maxResults=50', function( data )
-	{
-		for(var key_s in data["items"])
-		{
-			var string = data["items"][key_s]["snippet"]["title"];
-			if(string.indexOf("Dünya Fikir") != -1){
-				console.log(1);
-				i++;
-			}
-		}
-	});*/
+
+	markup_o = '<div id="idImg"';
 	
 	
-	$$.getJSON('https://www.googleapis.com/youtube/v3/search?key=AIzaSyCojx3Q0iOXImM6EGs9J078x909ar1J_4A&channelId=UC7oSNT3soKfhI2jsFHinXSA&part=snippet,id&order=date&maxResults=50', function( data )
+	var size = data_o[pVideoTitle].length;
+	
+	for(var key_s in data_o[pVideoTitle])
 	{
-	  for(var key_s in data["items"])
-	  {
-		nextPageToken = data['nextPageToken'];
-		maxVids = data['pageInfo']['totalResults'];
-		var string = data["items"][key_s]["snippet"]["title"];
-		if(string.indexOf(pVideoTitle) === -1)
-			continue;
-		
-		
-		try	{	
-			if (data["items"][key_s]["id"]["playlistId"] != undefined)
-				continue;
-		} catch(err) {
-				console.log(err);
-		}
-		
-		i++;
-		tlist.push(data["items"][key_s])
-	  }
-	$$.ajaxSetup({
-		async: false
-	});
-	  for(var j = 0; j < maxVids-50; j+=50)
-	  {
-		$$.getJSON('https://www.googleapis.com/youtube/v3/search?key=AIzaSyCojx3Q0iOXImM6EGs9J078x909ar1J_4A&channelId=UC7oSNT3soKfhI2jsFHinXSA&part=snippet&order=date&maxResults=50&pageToken=' + nextPageToken, function( data )
-		{
-			for(var key_s in data["items"])
-			{
-				console.log(j);
-				nextPageToken = data['nextPageToken'];
-				//maxVids = data['pageInfo']['totalResults'];
-				var string = data["items"][key_s]["snippet"]["title"];
-				if(string.indexOf(pVideoTitle) === -1)
-					continue;
-				
-				
-				try	{	
-					if (data["items"][key_s]["id"]["playlistId"] != undefined)
-						continue;
-				} catch(err) {
-						console.log(err);
-				}
-				
-				i++;
-				tlist.push(data["items"][key_s])
-			}
-		});
-	  
-	  }
-	  //console.log(tlist);
-	  
-	  for(var key_s in tlist)
-	  {
-		key_s = tlist[key_s]
-		var string = key_s["snippet"]["title"];
-		var pic = key_s["snippet"]["thumbnails"]["medium"];
-		var url = pic["url"];
-		
-		var vidId = key_s["id"]["videoId"]
+		dat = data_o[pVideoTitle][key_s];
+		console.log(dat);
+		vidId = dat['videoId'];
 		
 		if(firstVid == "")
 			firstVid = vidId;
-		/*
-	*/
-		//var realTitle = string.replace(/-?\d{8,}_*\d*/g,"");
-		/*var lesson = (string.match(/_\d\d/g).toString()).replace(/_/g,"");
-		realTitle += lesson;
 		
-		*/
-		var string2 = /\d/g;
-		var result = string.match(string2);
+		var url = dat["img"];
+		
+		
+		
+		videoTitle = "Ders ";
+		//tmpObj = RegExTit(dat['snippet']['title']);
+		//date = RegExDate(dat['snippet']['title']).date
+		//tmpTitle = tmpObj.title;
+		date = dat.date;
+		if(dat.title != "")
+			videoTitle = size-- + ". " + dat.title;
+		else
+			videoTitle = "UNDEFINED";
+		//date = "undef";
+		//date = ""
+		
+		
+		//markup_o += '<div class="clVideos"> <a id="onChangeVideoClick" onclick="ChangeVideo(\''+ vidId + '\');"><img border="0" class="linksb" alt="111" src="' + url + '" width="160" height="90"></a><p id="idVideoText">' + videoTitle + '</p><p id="idVideoDate">' + date + '</p></div>\n';
+		markup_o += '<div class="clVideos"> <a id="onChangeVideoClick" onclick="ChangeVideo(\''+ vidId + '\');"><img border="0" class="lazy lazy-fadein" alt="111" src="' + url + '" width="100%" ></a><p>' + videoTitle + '</p><p>' + date + '</p></div>\n';
+		//markup_o += '<div class="clVideos"> <a id="onChangeVideoClick" onclick="ChangeVideo(\''+ vidId + '\');"><img border="0" class="linksb lazy lazy-fadeIn" alt="111" src="' + url + '" width="160" height="90" ></a><p>' + videoTitle + '</p></div>\n';
+	}
+	markup_o += '</div>';
+	//alert("IDSJKFISDJ");
+	if(!init)
+	{
+		ChangeVideo(firstVid, true);
+		firstVid = "";
+	}
+	//ChangeVideo(firstVid);
+	$$("#idTest").html(markup_o);
 	
-		var year = result[0] + result[1] + result[2] + result[3];
-		var month = result[4] + result [5];
-		var day = result[6] + result[7];
-		
-		var date = day + "." + month + "." + year;
-		try {
-			var lesson = (string.match(/_\d\d/g).toString()).replace(/_/g,"");
-		}
-		catch(err)
-		{
-			//console.log(err);
-		}
-		//if(lesson == null)
-			videoTitle = "Ders " + i;
-		//else:
-		//	videoTitle = "Ders -"
-		
-		lesson = i--;
-			
-		markup_o += '<div class="clVideos"> <a id="onChangeVideoClick" onclick="ChangeVideo(\''+ vidId + '\');"><img border="0" class="linksb" alt="111" src="' + url + '" width="160" height="90"></a><p id="idVideoText">' + videoTitle + '</p><p id="idVideoDate">' + date + '</p></div>\n';
-		//console.log(markup_o);
-		
-	  }
-	  $$("#idTest").html(markup_o);
-	 
-	  
-	  
-
-	  
-	});
+	/*var pageWithLazyImages = $$('#idImg');
+	myApp.initImagesLazyLoad(pageWithLazyImages);*/
+	
+	return;
 }
+
+function ChangeVideoSite(pVideoTitle)
+{
+	getVideos(pVideoTitle);
+	
+}
+
+function getVideos2(pVideoTitle)
+{
+	//pVideoTitle = pVideoTitle.toLowerCase();
+	console.log(pVideoTitle);
+	markup_o = ""
+	var i = 0;
+	var tlist = [];
+
+	markup_o = "";
+	
+	$$.getJSON('http://localhost:3001/api/ytlink/' + pVideoTitle, function( data )
+	{
+		data_o = data;
+		for(var key_s in data)
+		{
+			
+			markup_o += '<p><a id="onUrlClick" class="close-panel" onclick="ChangeVideoSite(\''+ key_s + '\');">' + strings[key_s] + '</a></p>';
+		} 
+		$$("#idSidebar").html(markup_o);
+		//SetTimeout(getVideos, 1000, "sahsiyet");
+		getVideos("sahsiyet", true);
+		//Titles();
+		console.log(data);
+	});
+	return;
+}
+
 function onYouTubeIframeAPIReady() {
-	console.log(firstVid);
 	if(counter <= 40 && (firstVid == null || firstVid == ""))
 	{
 		setTimeout(onYouTubeIframeAPIReady, 250)
@@ -294,7 +358,10 @@ function onYouTubeIframeAPIReady() {
 		'onReady': onPlayerReady,
 		'onStateChange': onPlayerStateChange
 	  }
-	}); 
+	});
+	firstVid = ""; 
+	
+	//mainView.router.loadContent($$('#myPage').html());
 }
 //player.loadVideoById(vidId);
 
@@ -324,13 +391,11 @@ function onYouTubeIframeAPIReady() {
   }
 
 
-function ChangeVideo(vidId)
+function ChangeVideo(vidId, pause=false)
 {
-	//console.log(player);
 	player.loadVideoById(vidId);
-
-//	player.videoId = vidId;
-//	player.playVideo();
+	if(pause)
+		player.stopVideo();
 	
 	return false;
 }
