@@ -297,7 +297,10 @@ function testtest()
 }
 
 function onPause() {
-	if(player != null)
+	if(!playerIsSetup)
+		return;
+	
+	if(player != null || player)
 		player.pauseVideo();
 }
 
@@ -306,7 +309,10 @@ function onResume() {
 }
 
 function onMenuKeyDown() {
-	if(player != null)
+	if(!playerIsSetup)
+		return;
+	
+	if(player != null || player)
 		player.pauseVideo();
 }
 
@@ -476,10 +482,6 @@ function onYouTubeIframeAPIReady() {
 		'onStateChange': onPlayerStateChange
 	  }
 	});
-	
-	
-	var vids = $$('#player');
-	console.log(vids);
 	firstVid = ""; 
 	
 	//mainView.router.loadContent($$('#myPage').html());
@@ -489,6 +491,7 @@ function onYouTubeIframeAPIReady() {
 
  // 4. The API will call this function when the video player is ready.
   function onPlayerReady(event) {
+	  playerIsSetup = true;
   }
 
   // 5. The API calls this function when the player's state changes.
@@ -514,6 +517,11 @@ function onYouTubeIframeAPIReady() {
 
 function ChangeVideo(vidId, pause=false)
 {
+	if(!playerIsSetup)
+	{
+		alert("FEHLER");
+		return;
+	}
 	//console.log($$('body').scrollTop(0, 1));
 	$$('.page-content').scrollTop(0, 600);
 	player.loadVideoById(vidId);
