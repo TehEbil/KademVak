@@ -21,31 +21,6 @@ var data_o;
 
 
 
- myApp.push.on('notification', function(data) {
-     console.log('notification event');
-     var cards = document.getElementById("cards");
-     var push = '<div class="row">' +
-       '<div class="col s12 m6">' +
-       '  <div class="card darken-1">' +
-       '    <div class="card-content black-text">' +
-       '      <span class="card-title black-text">' + data.title + '</span>' +
-       '      <p>' + data.message + '</p>' +
-       '      <p>' + data.additionalData.foreground + '</p>' +
-       '    </div>' +
-       '  </div>' +
-       ' </div>' +
-       '</div>';
-     cards.innerHTML += push;
-
-     myApp.push.finish(function() {
-         console.log('success');
-     }, function() {
-         console.log('error');
-     });
- });
-
-
-
 var strings = {
 	"sahsiyet": "Şahsiyet",
 	"edebiyat": "Edebiyat",
@@ -115,40 +90,98 @@ function initialize()
     document.addEventListener("resume", onResume, false);
     document.addEventListener("menubutton", onMenuKeyDown, false);
 	
-	var push = PushNotification.init({
-    android: {
-        senderID: "492870102848"
-    },
-    browser: {
-        pushServiceURL: 'http://push.api.phonegap.com/v1/push'
-    },
-    ios: {
-        alert: "true",
-        badge: "true",
-        sound: "true"
-    },
-    windows: {}
-});
+   myApp.push = PushNotification.init({
+		"android": {
+			"senderID": "492870102848"
+		},
+		"ios": {
+		  "sound": true,
+		  "vibration": true,
+		  "badge": true,
+		  "categories": {
+			"invite": {
+				"yes": {
+					"callback": "myApp.accept", "title": "Accept",
+					"foreground": true, "destructive": false
+				},
+				"no": {
+					"callback": "myApp.reject", "title": "Reject",
+					"foreground": true, "destructive": false
+				},
+				"maybe": {
+					"callback": "myApp.maybe", "title": "Maybe",
+					"foreground": true, "destructive": false
+				}
+			},
+			"delete": {
+				"yes": {
+					"callback": "myApp.doDelete", "title": "Delete",
+					"foreground": true, "destructive": true
+				},
+				"no": {
+					"callback": "myApp.cancel", "title": "Cancel",
+					"foreground": true, "destructive": false
+				}
+			}
+		  }
+		},
+		"windows": {}
+	});
 
-push.on('registration', function(data) {
-	console.log('registration event: ' + data.registrationId);
-});
+   myApp.push.on('registration', function(data) {
+	   console.log("registration event: " + data.registrationId);
+	   document.getElementById("regId").innerHTML = data.registrationId;
+	   var oldRegId = localStorage.getItem('registrationId');
+	   if (oldRegId !== data.registrationId) {
+		   // Save new registration ID
+		   localStorage.setItem('registrationId', data.registrationId);
+		   // Post registrationId to your app server as the value has changed
+	   }
+   });
 
-push.on('error', function(e) {
-	console.log("push error = " + e.message);
-});
+   myApp.push.on('error', function(e) {
+	   console.log("push error = " + e.message);
+   });
+   myApp.push.on('notification', function(data) {
+	 console.log('notification event');
+	 if (data.additionalData.url) {
+	   if (data.additionalData.foreground) {
+		 navigator.notification.confirm(
+		  'Do you want to see a cat picture?',
+		   function(buttonIndex) {
+			 if (buttonIndex === 1) {
+			   myApp.toggle();
+			 }
+		   },
+		  'Cat Pic',
+		  ['Yes','No']
+		);
+	   } else {
+		 myApp.toggle();
+	   }
+	 } else {
+	   var cards = document.getElementById("cards");
+	   var push = '<div class="row">' +
+		 '<div class="col s12 m6">' +
+		 '  <div class="card darken-1">' +
+		 '    <div class="card-content black-text">' +
+		 '      <span class="card-title black-text">' + data.title + '</span>' +
+		 '      <p>' + data.message + '</p>' +
+		 '      <p>' + data.additionalData.foreground + '</p>' +
+		 '    </div>' +
+		 '  </div>' +
+		 ' </div>' +
+		 '</div>';
+	   cards.innerHTML += push;
+	 }
 
-push.on('notification', function(data) {
-	console.log('notification event');
-	navigator.notification.alert(
-		data.message,         // message
-		null,                 // callback
-		data.title,           // title
-		'Ok'                  // buttonName
-	);
-});
-	
-}
+	  myApp.push.finish(function() {
+		  console.log('success');
+	  }, function() {
+		  console.log('error');
+	  });
+	});
+};
 
 function SetupJSAPI()
 {
