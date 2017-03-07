@@ -40,10 +40,38 @@ var mainView = myApp.addView('.view-main', {
 
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
+	
+	document.getElementById("toggleBtn").addEventListener('click', toggle, false);
 	initialize();
 });
 
+function accept()
+{
+	alert("Accepted");
+}
 
+function reject()
+{
+	alert("Rejection");
+}
+
+function maybe()
+{
+	alert("maybe");
+}
+
+function toggle(id)
+{
+     var cats = document.querySelector("#cats");
+     var cards = document.querySelector("#cards");
+     if (cats.style.display === 'none') {
+       cats.style.display = 'block';
+       cards.style.display = 'none';
+     } else {
+       cats.style.display = 'none';
+       cards.style.display = 'block';
+     }
+}
 
 
 
@@ -101,15 +129,15 @@ function initialize()
 		  "categories": {
 			"invite": {
 				"yes": {
-					"callback": "myApp.accept", "title": "Accept",
+					"callback": "accept", "title": "Accept",
 					"foreground": true, "destructive": false
 				},
 				"no": {
-					"callback": "myApp.reject", "title": "Reject",
+					"callback": "reject", "title": "Reject",
 					"foreground": true, "destructive": false
 				},
 				"maybe": {
-					"callback": "myApp.maybe", "title": "Maybe",
+					"callback": "maybe", "title": "Maybe",
 					"foreground": true, "destructive": false
 				}
 			},
@@ -150,14 +178,14 @@ function initialize()
 		  'Do you want to see a cat picture?',
 		   function(buttonIndex) {
 			 if (buttonIndex === 1) {
-			   myApp.toggle();
+			   toggle();
 			 }
 		   },
 		  'Cat Pic',
 		  ['Yes','No']
 		);
 	   } else {
-		 myApp.toggle();
+		 toggle();
 	   }
 	 } else {
 	   var cards = document.getElementById("cards");
@@ -176,9 +204,9 @@ function initialize()
 	 }
 
 	  myApp.push.finish(function() {
-		  console.log('success');
+		  console.log('successPUSH');
 	  }, function() {
-		  console.log('error');
+		  console.log('errorPUSH');
 	  });
 	});
 };
