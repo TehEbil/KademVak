@@ -341,10 +341,12 @@ function SetupFullscreen()
 }
 
 function IsFullscreen2() {
+	alert(document.body.clientHeight + " " +  screen.height + "    !!   " + document.body.clientWidth + " " + screen.width)
 	return document.body.clientHeight == screen.height && document.body.clientWidth == screen.width;
 }
 
 function IsFullscreen() {
+	alert(document.fullScreen  + " " +   document.webkitIsFullScreen  + " " +   document.mozFullScreen)
 	return document.fullScreen || document.webkitIsFullScreen || document.mozFullScreen
 }
 
