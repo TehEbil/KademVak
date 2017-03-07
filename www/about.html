@@ -18,10 +18,42 @@
 <div class="pages">
     <div data-page="about" class="page">
         <div class="page-content">
+		
             <div class="content-block">
-                <p>App Version: 1.0.6</p>
+                <p id="idVer"></p>
                 <p>Bir soru veya problem var? Bize ulaşın lütfen: Cycrosoft@gmail.com</p>
             </div>
-        </div>
-    </div>
+			
+			<div class="content-block">
+				<form id="my-form" class="list-block">
+				  <ul>
+					<li>
+					  <div class="item-content">
+						<div class="item-inner">
+						  <div class="item-title label">Adınız</div>
+						  <div class="item-input">
+							<input type="text" id="formName" name="formName" placeholder="Adınız">
+						  </div>
+						</div>
+					  </div>
+					</li>
+					<li class="align-top">
+					  <div class="item-content">
+						<div class="item-inner">
+						  
+						  <div class="item-input">
+							<textarea id="formText" name="formText" class="resizable" placeholder="Problem"></textarea>
+						  </div>
+						</div>
+					  </div>
+					</li>
+				  </ul>
+				</form>
+			</div>
+				 
+			<div class="content-block">
+			  <a href="#" class="button form-to-data">Get Form Data</a>
+			</div>
+		</div>
+	</div>
 </div>

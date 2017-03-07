@@ -43,4 +43,5 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <feature name="http://api.phonegap.com/1.0/network" />
+    <plugin name="cordova-plugin-device" spec="~1.1.4" />
 </widget>

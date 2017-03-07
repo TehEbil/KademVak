@@ -28,6 +28,9 @@
         },
         "cordova-plugin-app-version": {
             "PACKAGE_NAME": "com.cycrosoft.kademvakfi"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.cycrosoft.kademvakfi"
         }
     },
     "dependent_plugins": {}
