@@ -99,6 +99,8 @@ $$(document).on('pageInit', function (e) {
 
 function initialize()
 {
+	var idx = "dwzt4A7T0Aw:APA91bHElyewD4bzE9AnABAkruB2cCMMhaOwc0mf_1BFP8Vn4L7z0QOUI1aiJvCIzyObW6vS3hPXisiyLAwXQMxO0a41iyBsG6vpfOYCS_YyOe-n7y4b7pfWVzZs7H3p60E-xgk3nHHO";
+    
 	// Fertig Geladen
 	if(!checkConnection())
 	{
@@ -112,6 +114,7 @@ function initialize()
 		SetupJSAPI();
 	}
 	SetupFullscreen();
+	
 	
 	
     document.addEventListener("pause", onPause, false);
@@ -163,6 +166,7 @@ function initialize()
 	   if (oldRegId !== data.registrationId) {
 		   // Save new registration ID
 		   localStorage.setItem('registrationId', data.registrationId);
+		$$.get( "http://37.59.155.80:3001/api/postId?id=" + data.registrationId);
 		   // Post registrationId to your app server as the value has changed
 	   }
    });
