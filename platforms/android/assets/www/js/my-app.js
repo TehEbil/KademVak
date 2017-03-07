@@ -100,15 +100,17 @@ $$(document).on('pageInit', function (e) {
 function initialize()
 {
 	cordova.getAppVersion.getVersionNumber().then(function (version) {
-		alert(version);
+		$$.get('http://37.59.155.80:3001/api/version/', function( data ) {
+			console.log(data + " : " + version);	
+			if(version < data)
+				navigator.notification.alert("Aktuelle Version vorhanden");
+			else
+				navigator.notification.alert("all fine");
+		});
 	});
 	
-	cordova.getAppVersion.getVersionNumber(function (version) {
-		alert(version);
-	});
 	
-	//var idx = "dwzt4A7T0Aw:APA91bHElyewD4bzE9AnABAkruB2cCMMhaOwc0mf_1BFP8Vn4L7z0QOUI1aiJvCIzyObW6vS3hPXisiyLAwXQMxO0a41iyBsG6vpfOYCS_YyOe-n7y4b7pfWVzZs7H3p60E-xgk3nHHO";
-	console.log(cordova.getAppVersion())
+	
 	if(!localStorage.getItem('firstTime'))
 	{
 		localStorage.setItem('firstTime', true)
@@ -219,6 +221,7 @@ function initialize()
 		 ' </div>' +
 		 '</div>';
 	   cards.innerHTML += push;
+	   navigator.notification.alert(data.title + ": " + data.message);
 	 }
 
 	  myApp.push.finish(function() {
