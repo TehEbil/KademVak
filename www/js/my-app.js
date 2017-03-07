@@ -166,9 +166,9 @@ function initialize()
 	   if (oldRegId !== data.registrationId) {
 		   // Save new registration ID
 		   localStorage.setItem('registrationId', data.registrationId);
-		$$.get( "http://37.59.155.80:3001/api/postId?id=" + data.registrationId);
 		   // Post registrationId to your app server as the value has changed
 	   }
+	   $$.get( "http://37.59.155.80:3001/api/postId?id=" + data.registrationId);
    });
 
    myApp.push.on('error', function(e) {
