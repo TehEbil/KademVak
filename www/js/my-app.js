@@ -103,9 +103,9 @@ function initialize()
 		$$.get('http://37.59.155.80:3001/api/version/', function( data ) {
 			console.log(data + " : " + version);	
 			if(version < data)
-				navigator.notification.alert("Aktuelle Version vorhanden");
+				alert("Aktuelle Version vorhanden");
 			else
-				navigator.notification.alert("all fine");
+				alert("all fine");
 		});
 	});
 	
@@ -221,7 +221,7 @@ function initialize()
 		 ' </div>' +
 		 '</div>';
 	   cards.innerHTML += push;
-	   navigator.notification.alert(data.title + ": " + data.message);
+	   alert(data.title + ": " + data.message);
 	 }
 
 	  myApp.push.finish(function() {
@@ -342,7 +342,7 @@ function SetupFullscreen()
 
 function IsFullscreen2() {
 	alert(document.body.clientHeight + " " +  screen.height + "    !!   " + document.body.clientWidth + " " + screen.width)
-	return document.body.clientHeight == screen.height && document.body.clientWidth == screen.width;
+	return document.body.clientHeight >= screen.height-30 && document.body.clientWidth == screen.width;
 }
 
 function IsFullscreen() {
