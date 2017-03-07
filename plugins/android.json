@@ -25,6 +25,9 @@
         "phonegap-plugin-push": {
             "SENDER_ID": "492870102848",
             "PACKAGE_NAME": "com.cycrosoft.kademvakfi"
+        },
+        "cordova-plugin-app-version": {
+            "PACKAGE_NAME": "com.cycrosoft.kademvakfi"
         }
     },
     "dependent_plugins": {}

@@ -99,8 +99,22 @@ $$(document).on('pageInit', function (e) {
 
 function initialize()
 {
-	var idx = "dwzt4A7T0Aw:APA91bHElyewD4bzE9AnABAkruB2cCMMhaOwc0mf_1BFP8Vn4L7z0QOUI1aiJvCIzyObW6vS3hPXisiyLAwXQMxO0a41iyBsG6vpfOYCS_YyOe-n7y4b7pfWVzZs7H3p60E-xgk3nHHO";
-    
+	cordova.getAppVersion.getVersionNumber().then(function (version) {
+		alert(version);
+	});
+	
+	cordova.getAppVersion.getVersionNumber(function (version) {
+		alert(version);
+	});
+	
+	//var idx = "dwzt4A7T0Aw:APA91bHElyewD4bzE9AnABAkruB2cCMMhaOwc0mf_1BFP8Vn4L7z0QOUI1aiJvCIzyObW6vS3hPXisiyLAwXQMxO0a41iyBsG6vpfOYCS_YyOe-n7y4b7pfWVzZs7H3p60E-xgk3nHHO";
+	console.log(cordova.getAppVersion())
+	if(!localStorage.getItem('firstTime'))
+	{
+		localStorage.setItem('firstTime', true)
+		navigator.notification.alert("Selam arkadaslar");
+	}
+	
 	// Fertig Geladen
 	if(!checkConnection())
 	{
@@ -482,6 +496,8 @@ function onYouTubeIframeAPIReady() {
 
 function ChangeVideo(vidId, pause=false)
 {
+	//console.log($$('body').scrollTop(0, 1));
+	$$('.page-content').scrollTop(0, 600);
 	player.loadVideoById(vidId);
 	if(pause)
 		player.stopVideo();
