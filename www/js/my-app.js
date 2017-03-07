@@ -21,38 +21,7 @@ var data_o;
 
 
 
-var push = PushNotification.init({
-    android: {
-        senderID: "492870102848"
-    },
-    browser: {
-        pushServiceURL: 'http://push.api.phonegap.com/v1/push'
-    },
-    ios: {
-        alert: "true",
-        badge: "true",
-        sound: "true"
-    },
-    windows: {}
-});
 
-push.on('registration', function(data) {
-	console.log('registration event: ' + data.registrationId);
-});
-
-push.on('error', function(e) {
-	console.log("push error = " + e.message);
-});
-
-push.on('notification', function(data) {
-	console.log('notification event');
-	navigator.notification.alert(
-		data.message,         // message
-		null,                 // callback
-		data.title,           // title
-		'Ok'                  // buttonName
-	);
-});
 
 var strings = {
 	"sahsiyet": "Şahsiyet",
@@ -73,7 +42,6 @@ var mainView = myApp.addView('.view-main', {
 
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
-	
 	initialize();
 });
 
@@ -123,6 +91,39 @@ function initialize()
     document.addEventListener("pause", onPause, false);
     document.addEventListener("resume", onResume, false);
     document.addEventListener("menubutton", onMenuKeyDown, false);
+	
+	var push = PushNotification.init({
+    android: {
+        senderID: "492870102848"
+    },
+    browser: {
+        pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+    },
+    ios: {
+        alert: "true",
+        badge: "true",
+        sound: "true"
+    },
+    windows: {}
+});
+
+push.on('registration', function(data) {
+	console.log('registration event: ' + data.registrationId);
+});
+
+push.on('error', function(e) {
+	console.log("push error = " + e.message);
+});
+
+push.on('notification', function(data) {
+	console.log('notification event');
+	navigator.notification.alert(
+		data.message,         // message
+		null,                 // callback
+		data.title,           // title
+		'Ok'                  // buttonName
+	);
+});
 	
 }
 
@@ -323,7 +324,7 @@ function getVideos2(pVideoTitle)
 
 	markup_o = "";
 	
-	$$.getJSON('http://localhost:3001/api/ytlink/' + pVideoTitle, function( data )
+	$$.getJSON('http://37.59.155.80:3001/api/ytlink/' + pVideoTitle, function( data )
 	{
 		data_o = data;
 		for(var key_s in data)
