@@ -323,20 +323,29 @@ function SetupFullscreen()
     alert('Event: ' + event);    
 	});
 */	
-    document.addEventListener("webkitfullscreenchange", function(e) {
-		if (IsFullscreen()) {
-			//StatusBar.hide();
+
+    var screenChange = "webkitfullscreenchange mozfullscreenchange fullscreenchange"
+	
+	screenChange.split(" ").forEach(function(e){
+	
+    document.addEventListener(e, function(e) {
+		if (IsFullscreen() || IsFullscreen2()) {
+			StatusBar.hide();
 			alert("Fullscreen")
 		} else {
 			StatusBar.show();
 			console.log("NotFullScreen")
 		}
 	});
+		});
 }
 
+function IsFullscreen2() {
+	return document.body.clientHeight == screen.height && document.body.clientWidth == screen.width;
+}
 
 function IsFullscreen() {
-	return document.fullscreen || document.webkitIsFullScreen || document.mozFullScreen
+	return document.fullScreen || document.webkitIsFullScreen || document.mozFullScreen
 }
 
 
@@ -465,6 +474,10 @@ function onYouTubeIframeAPIReady() {
 		'onStateChange': onPlayerStateChange
 	  }
 	});
+	
+	
+	var vids = $$('#player');
+	console.log(vids);
 	firstVid = ""; 
 	
 	//mainView.router.loadContent($$('#myPage').html());
