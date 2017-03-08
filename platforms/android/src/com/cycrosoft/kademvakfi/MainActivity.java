@@ -28,7 +28,17 @@ public class MainActivity extends CordovaActivity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
+		
+		
+		/*
+        Intent intent = new Intent(this, DisplayMessageActivity.class);
+        String message = "Hello!!!!!!!!!!!!";
+        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
+		*/
+		
+		
+		
         // enable Cordova apps to be started in the background
         Bundle extras = getIntent().getExtras();
         if (extras != null && extras.getBoolean("cdvStartInBackground", false)) {

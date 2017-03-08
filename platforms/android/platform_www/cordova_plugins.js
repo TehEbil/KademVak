@@ -76,7 +76,8 @@ module.exports.metadata =
     "cordova-plugin-dialogs": "1.3.1",
     "phonegap-plugin-push": "1.9.4",
     "cordova-plugin-app-version": "0.1.9",
-    "cordova-plugin-device": "1.1.4"
+    "cordova-plugin-device": "1.1.4",
+    "cordova-plugin-crosswalk-webview": "2.3.0"
 };
 // BOTTOM OF METADATA
 });
