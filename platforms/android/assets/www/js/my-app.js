@@ -71,21 +71,25 @@ myApp.onPageInit('about', function (page) {
 function initialize()
 {	
 	//console.log(device.version);
-	if(!localStorage.getItem('firstTime'))
+	/*if(!localStorage.getItem('firstTime'))
 	{
 		localStorage.setItem('firstTime', true)
 		alert(messages["problem"]);
-	}
+	}*/
+	
+	alert("Works");
 	
 	if(!checkConnection())
 	{
 		alert(messages["noInternet"])
 		document.addEventListener("online", delayedIntialize, true);
+	alert("Works1");
 	}
 	else
 	{	
 		SetupJSAPI();
 		getVideoData();
+	alert("Works2");
 	}
 	SetupFullscreen();
 	
@@ -93,7 +97,8 @@ function initialize()
     document.addEventListener("resume", onResume, false);
     document.addEventListener("menubutton", onMenuKeyDown, false);
 	
-   myApp.push = PushNotification.init({
+	alert("Works2.5");
+   /*myApp.push = PushNotification.init({
 		"android": {
 			"senderID": "492870102848"
 		},
@@ -104,6 +109,7 @@ function initialize()
 		},
 		"windows": {}
 	});
+	alert("Works3");
 
    myApp.push.on('registration', function(data) {
 	   var oldRegId = localStorage.getItem('registrationId');
@@ -132,6 +138,7 @@ function initialize()
 	  }, function() {
 		  console.log('errorPUSH');
 	  });
+	  */
 };
 
 function SetupJSAPI()
@@ -208,7 +215,7 @@ function IsFullscreen2() {
 
 function IsFullscreen() {
 	//alert(document.fullScreen  + " " +   document.webkitIsFullScreen  + " " +   document.mozFullScreen)
-	return document.fullScreen || document.webkitIsFullScreen || document.mozFullScreen
+	return document.fullScreen || document.webkitIsFullScreen || document.mozFullScreen;
 }
 /*
 function Titles()
