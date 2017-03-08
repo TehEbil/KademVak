@@ -1,0 +1,51 @@
+ToDo:
+
+Logo anpassen									L
+Header-Text anpassen							L
+Links in Sidebar tun (sahsiyet startseite!)     Done
+Sidebar: Links größer, width complete Panel + HoverEffect! L
+RegEx:											DONE
+	Ders + Title								DONE
+	Datum (rb?)									DONE
+	
+sidebar icon nach links							L
+pushbenachrichtigung?							+ Easily Done
+AppStart:
+	- neue Version (updaten)					Done
+	- initially note that yt is bugged sometimes, just reroll or maximize	Done
+About: report Bug 								Done
+	
+optimieren										AlmostDone
+	
++ anderen beiden Apps:
+
+
+
+Tasavvuf Sohbetleri
+Füsus
+(Akademi)
+------------
+Yayinevi  -> http://www.literakitap.com/  -> toApp (WebView?!)
+
+
+API-Key:  AIzaSyCDbgnFgKUqQ6ryB2oENgNxiG4FycxaFVA 
+ Nr. 492870102848 
+ 
+ 
+ 
+ 	
+		re = /(.*)?201\d.*/
+		
+		result = re.exec(str);
+		console.log(result);
+		
+		if(result != null)
+			if(result[1])
+				return result
+		return "";
+		
+		
+Serverschlüssel
+AAAAcsFY70A:APA91bGIXOuKNlgUigkvCsDrqcHGpolfqY4yPKwPFAxH9ATHL2E_R2Ao6ogJXQwRH5FOuYeYz9LVvLdx7ErvMzwu_IGAy-xm16ABn_rir0OA-SNvWG6t1Nd8zh69zM-okxADqqtGKcqq
+Sender-ID help_outline
+492870102848

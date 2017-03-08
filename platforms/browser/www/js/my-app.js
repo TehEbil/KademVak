@@ -20,7 +20,7 @@ var versionx = "1.0.0";
 var messages = {
 	"problem": "Youtube-Playersinin hatali olmasi nedeniyle. Playernin siyah ekran olma ihtimali var",
 	"newVer": "Yeni güncelleme mevcut",
-	"noInternet": "No Internet"
+	"noInternet": "Internet baglantiniz yok. Devam etmek icin lütfen internet baglantinizin oldugundan emin olun."
 }
 
 var categories = {
@@ -37,6 +37,10 @@ var mainView = myApp.addView('.view-main', {
 });
 
 $$(document).on('deviceready', function() {
+	
+	
+	$$.ajaxSetup({'timeout': 4000});
+	
 	initialize();
 });
 
@@ -48,19 +52,29 @@ myApp.onPageInit('about', function (page) {
 	$$('.form-to-data').on('click', function(){
 	  name = $$("#formName").val();
 	  problem = $$("#formText").val();
+	  //$$.get( "http://37.59.155.80:3001/api/postProblem?name=" + name + "&problem=" + problem + "&os=" + device.platform + "&ver=" + versionx + "&manu=" + device.manufacturer + "&model=" + device.model);
 	  
-	  $$.get( "http://37.59.155.80:3001/api/postProblem?name=" + name + "&problem=" + problem + "&os=" + device.platform + "&ver=" + versionx + "&manu=" + device.manufacturer + "&model=" + device.model );
-	  //alert(JSON.stringify(formData));
+	$$.ajax({
+		type: 'GET',
+		url: "http://37.59.155.80:3001/api/postProblem?name=" + name + "&problem=" + problem + "&os=" + device.platform + "&ver=" + versionx + "&manu=" + device.manufacturer + "&model=" + device.model,
+		success: function (data) {
+			alert("Tessekür Ederim")
+		},
+		error: function() {
+		  alert("Cannot Reach Server.");            
+	}});
+
+	  mainView.router.back();
 	}); 
 })
 
 function initialize()
 {	
-	console.log(device.version);
+	//console.log(device.version);
 	if(!localStorage.getItem('firstTime'))
 	{
 		localStorage.setItem('firstTime', true)
-		navigator.notification.alert(messages["problem"]);
+		alert(messages["problem"]);
 	}
 	
 	if(!checkConnection())
@@ -96,7 +110,13 @@ function initialize()
 	   if (oldRegId !== data.registrationId) {
 		   localStorage.setItem('registrationId', data.registrationId);
 	   }
-	   $$.get( "http://37.59.155.80:3001/api/postId?id=" + data.registrationId);
+	    //$$.get( "http://37.59.155.80:3001/api/postId?id=" + data.registrationId);
+	   	$$.ajax({
+		type: 'GET',
+		url: "http://37.59.155.80:3001/api/postId?id=" + data.registrationId,
+		error: function() {
+		  alert("Cannot Reach Server1.");            
+		}});
    });
 
    myApp.push.on('error', function(e) {
@@ -124,56 +144,18 @@ function SetupJSAPI()
 	
 	cordova.getAppVersion.getVersionNumber().then(function (version) {
 		versionx = version;
-		$$.get('http://37.59.155.80:3001/api/version/', function( data ) {
-			if(version < data)
-				alert(messages["newVer"]);
-		});
+
+		$$.ajax({
+			type: 'GET',
+			url: "http://37.59.155.80:3001/api/version/",
+			success: function (data) {
+				if(version < data)
+					alert(messages["newVer"]);
+			},
+			error: function() {
+			  alert("Cannot Reach Server.");            
+		}});
 	});
-}
-
-
-function RegExTit(str)
-{
-	obj = {}
-
-	var re = /.*?(201\d)(\d{2})(\d{2})/
-	var result = re.exec(str);
-	if(result != null)
-		if(result[1] && result[2] && result[3])
-		{
-			obj.date = result[3]  + "." + result[2] + "." + result[1];
-			obj.year = result[1];
-			obj.month = result[2];
-			obj.day = result[3];
-		}
-
-	if(str.indexOf("ahsiyet") != -1)
-		obj.title = "Şahsiyet Düşünce Ve İfade Üzerine";
-	else if(str.indexOf("ünce ve") != -1)
-		obj.title = "Düşünce ve İfade";
-	else if(str.indexOf("Yaratılış") != -1)
-		obj.title = "Yaratılış ve Kişilik Dersi";
-		
-	if(obj.title != null)
-		return obj;
-
-	relist = [/.*?201\d\d{2}\d{2}:? ?:?_? ?(.*)/, /.*?201\d\d{2}\d{2}_(.*)/, /.*_([^0-9]*)/]
-
-	for( var key_s in relist)
-		if((obj.title = getTitle(str,relist[key_s])) != "")
-			return obj;
-
-	obj.title = "";
-	return obj;
-}
-
-function getTitle (str, re)
-{
-	var result = re.exec(str);
-	if(result != null)
-		if(result[1])
-			return result[1];
-	return "";
 }
 
 function delayedIntialize()
@@ -281,17 +263,25 @@ function ChangeVideoSite(pVideoTitle) {
 
 function getVideoData()
 {
-	markup_o = ""
+	markup_o = "";
 	
-	$$.getJSON('http://37.59.155.80:3001/api/ytlink/all', function( data )
-	{
-		data_o = data;
-		for(var key_s in data)
-			markup_o += '<p><a id="onUrlClick" class="close-panel" onclick="ChangeVideoSite(\''+ key_s + '\');">' + categories[key_s] + '</a></p>';
+	$$.ajax({
+		type: 'GET',
+		url: 'http://37.59.155.80:3001/api/ytlink/all',
+		dataType: 'json',
+		timeout: 10000,
+		success: function (data) {
+			data_o = data;
+			for(var key_s in data)
+				markup_o += '<p><a id="onUrlClick" class="close-panel" onclick="ChangeVideoSite(\''+ key_s + '\');">' + categories[key_s] + '</a></p>';
 
-		$$("#idSidebar").html(markup_o);
-		getVideos("sahsiyet", true);
-	});
+			$$("#idSidebar").html(markup_o);
+			getVideos("sahsiyet", true);
+		},
+		error: function() {
+		  alert("Cannot Reach Server.");            
+	}});
+
 	return;
 }
 
