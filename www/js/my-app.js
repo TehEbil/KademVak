@@ -101,7 +101,7 @@ function initialize()
 		  "badge": true,
 		},
 		"windows": {}
-	});
+	}); 
 
    myApp.push.on('registration', function(data) {
 	   var oldRegId = localStorage.getItem('registrationId');
