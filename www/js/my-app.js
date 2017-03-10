@@ -68,7 +68,7 @@ myApp.onPageInit('about', function (page) {
 
 function initialize()
 {	
-	//console.log(device.version);
+	//console.log(device.version); 
 	if(!localStorage.getItem('firstTime'))
 	{
 		localStorage.setItem('firstTime', true)
