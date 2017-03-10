@@ -107,14 +107,14 @@ function initialize()
 	   var oldRegId = localStorage.getItem('registrationId');
 	   if (oldRegId !== data.registrationId) {
 		   localStorage.setItem('registrationId', data.registrationId);
+			$$.ajax({
+			type: 'GET',
+			url: "http://37.59.155.80:3001/api/postId?id=" + data.registrationId + "&oldId=" + oldRegId + "&os=" + device.platform,
+			error: function() {
+			  alert("Cannot Reach Server1.");            
+			}});
 	   }
 	    //$$.get( "http://37.59.155.80:3001/api/postId?id=" + data.registrationId);
-	   	$$.ajax({
-		type: 'GET',
-		url: "http://37.59.155.80:3001/api/postId?id=" + data.registrationId,
-		error: function() {
-		  alert("Cannot Reach Server1.");            
-		}});
    });
 
    myApp.push.on('error', function(e) {
