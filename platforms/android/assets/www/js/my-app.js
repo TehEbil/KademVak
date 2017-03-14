@@ -18,6 +18,7 @@ var player = null;
 var data_o;
 var isFullScreenState = false;
 var versionx = "1.0.0";
+var playerIsSetup = false;
 
 var messages = {
 	"problem": "Youtube-Playersinin hatali olmasi nedeniyle. Playernin siyah ekran olma ihtimali var",
