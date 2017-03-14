@@ -51,5 +51,4 @@
         <variable name="XWALK_MODE" value="embedded" />
         <variable name="XWALK_MULTIPLEAPK" value="true" />
     </plugin>
-    <!--plugin name="cordova-plugin-dialogs" spec="~1.3.1" /-->
 </widget>
