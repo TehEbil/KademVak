@@ -45,7 +45,7 @@ $$(document).on('deviceready', function() {
 });
 
 $$('body').click(function() {
-	if ($$('body').hasClass('with-panel-left-cover')) 
+	if ($$('body').hasClass('with-panel-left-cover') || $$('body').hasClass('with-panel-left-reveal')) 
 		myApp.closePanel();
 });
 
@@ -279,8 +279,8 @@ function getVideoData()
 		success: function (data) {
 			data_o = data;
 			for(var key_s in data)
-				//markup_o += '<div class="close-panel classA" onclick="ChangeVideoSite(\''+ key_s + '\')"><p><a id="onUrlClick" class="close-panel" onclick="ChangeVideoSite(\''+ key_s + '\');">' + categories[key_s] + '</a></p></div>';
-				markup_o += '<div class="classA"><p><a id="onUrlClick" class="close-panel" onclick="ChangeVideoSite(\''+ key_s + '\');">' + categories[key_s] + '</a></p></div>';
+				markup_o += '<div class="close-panel classA" onclick="ChangeVideoSite(\''+ key_s + '\')"><p><a id="onUrlClick" class="close-panel" onclick="ChangeVideoSite(\''+ key_s + '\');">' + categories[key_s] + '</a></p></div>';
+				//markup_o += '<div class="classA"><p><a id="onUrlClick" class="close-panel" onclick="ChangeVideoSite(\''+ key_s + '\');">' + categories[key_s] + '</a></p></div>';
 				//markup_o += '<p><a id="onUrlClick" class="close-panel" onclick="ChangeVideoSite(\''+ key_s + '\');">' + categories[key_s] + '</a></p>';
 
 			$$("#idSidebar").html(markup_o);

@@ -14,8 +14,8 @@
 
 .page-content{
     background-color: aliceblue;
-    padding-top: 10vh !important;
-
+    padding-top: 8vh !important;
+	padding-bottom: 0 !important;
 }
 
 .statusbar-overlay {
@@ -83,6 +83,9 @@
 
 #idAll {
      font-size: 2.5vh ;
+}
+
+#onChangeVideoClick{
 }
 
 .toolbox{
@@ -175,7 +178,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bddbed', end
 
 
 .navbar{
-    height: 10vh;
+    height: 8vh;
 }
 
 .navbar-inner{
@@ -242,6 +245,8 @@ a {
 }
 
 .clVideos img{
+	margin: -6vh 0;
+	clip-path: inset(6vh 0px 6vh 0px);
     border-radius: 4px; 
     
 }
