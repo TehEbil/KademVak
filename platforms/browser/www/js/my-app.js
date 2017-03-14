@@ -10,6 +10,8 @@ var myApp = new Framework7({
     }
 });
 
+var ip = "http://52.59.238.139:3001/"
+
 var counter = 0;
 var firstVid = ""
 var player = null;
@@ -42,6 +44,11 @@ $$(document).on('deviceready', function() {
 	initialize();
 });
 
+$$('body').click(function() {
+	if ($$('body').hasClass('with-panel-left-cover')) 
+		myApp.closePanel();
+});
+
 myApp.onPageInit('about', function (page) {
 	myApp.closePanel();
 
@@ -50,11 +57,11 @@ myApp.onPageInit('about', function (page) {
 	$$('.form-to-data').on('click', function(){
 	  name = $$("#formName").val();
 	  problem = $$("#formText").val();
-	  //$$.get( "http://37.59.155.80:3001/api/postProblem?name=" + name + "&problem=" + problem + "&os=" + device.platform + "&ver=" + versionx + "&manu=" + device.manufacturer + "&model=" + device.model);
+	  //$$.get( ip + "/api/postProblem?name=" + name + "&problem=" + problem + "&os=" + device.platform + "&ver=" + versionx + "&manu=" + device.manufacturer + "&model=" + device.model);
 	  
 	$$.ajax({
 		type: 'GET',
-		url: "http://37.59.155.80:3001/api/postProblem?name=" + name + "&problem=" + problem + "&os=" + device.platform + "&ver=" + versionx + "&manu=" + device.manufacturer + "&model=" + device.model,
+		url: ip + "/api/postProblem?name=" + name + "&problem=" + problem + "&os=" + device.platform + "&ver=" + versionx + "&manu=" + device.manufacturer + "&model=" + device.model,
 		success: function (data) {
 			alert("Tessekür Ederim")
 		},
@@ -68,7 +75,7 @@ myApp.onPageInit('about', function (page) {
 
 function initialize()
 {	
-	//console.log(device.version);
+	//console.log(device.version); 
 	if(!localStorage.getItem('firstTime'))
 	{
 		localStorage.setItem('firstTime', true)
@@ -107,14 +114,14 @@ function initialize()
 	   var oldRegId = localStorage.getItem('registrationId');
 	   if (oldRegId !== data.registrationId) {
 		   localStorage.setItem('registrationId', data.registrationId);
+			$$.ajax({
+			type: 'GET',
+			url: ip + "/api/postId?id=" + data.registrationId + "&oldId=" + oldRegId + "&os=" + device.platform,
+			error: function() {
+			  alert("Cannot Reach Server1.");            
+			}});
 	   }
-	    //$$.get( "http://37.59.155.80:3001/api/postId?id=" + data.registrationId);
-	   	$$.ajax({
-		type: 'GET',
-		url: "http://37.59.155.80:3001/api/postId?id=" + data.registrationId,
-		error: function() {
-		  alert("Cannot Reach Server1.");            
-		}});
+	    //$$.get( ip + "/api/postId?id=" + data.registrationId);
    });
 
    myApp.push.on('error', function(e) {
@@ -122,7 +129,7 @@ function initialize()
    });
     myApp.push.on('notification', function(data) {
 		console.log('notification event');
-		alert(data.title + ": " + data.message);
+		//alert(data.title + ": " + data.message);
 	});
 
 	myApp.push.finish(function() {
@@ -145,7 +152,7 @@ function SetupJSAPI()
 
 		$$.ajax({
 			type: 'GET',
-			url: "http://37.59.155.80:3001/api/version/",
+			url: ip + "/api/version/",
 			success: function (data) {
 				if(version < data)
 					alert(messages["newVer"]);
@@ -239,11 +246,12 @@ function getVideos(pVideoTitle, init=false)
 		
 		date = dat.date;
 		if(dat.title != "")
-			videoTitle = size-- + ". " + dat.title;
+			videoTitle = dat.title;
 		else
 			videoTitle = "UNDEFINED";
 		
-		markup_o += '<div class="clVideos"> <a id="onChangeVideoClick" onclick="ChangeVideo(\''+ vidId + '\');"><img border="0" class="lazy lazy-fadein" alt="111" src="' + url + '" width="100%" ></a><p>' + videoTitle + '</p><p>' + date + '</p></div>\n';
+		//markup_o += '<div class="clVideos"> <a id="onChangeVideoClick" onclick="ChangeVideo(\''+ vidId + '\');"><img border="0" class="lazy lazy-fadein" alt="111" src="' + url + '" width="100%" ></a><p>' + videoTitle + '</p><p>' + date + '</p></div>\n';
+		markup_o += '<div class="clVideos" ><a id="onChangeVideoClick" onclick="ChangeVideo(\''+ vidId + '\');"><img border="0" class="lazy lazy-fadein" alt="111" src="' + url + '" width="100%" ></a><div class="clVideoX"><div id="idVideoText" class="clCounter">' + size-- + '</div><p class="clTitle">' + videoTitle + '</p><p id="idVideoDate" class="clDate">' + date + '</p></div></div>\n';
 	}
 	
 	if(!init)
@@ -265,13 +273,15 @@ function getVideoData()
 	
 	$$.ajax({
 		type: 'GET',
-		url: 'http://37.59.155.80:3001/api/ytlink/all',
+		url: ip + '/api/ytlink/all',
 		dataType: 'json',
 		timeout: 10000,
 		success: function (data) {
 			data_o = data;
 			for(var key_s in data)
-				markup_o += '<p><a id="onUrlClick" class="close-panel" onclick="ChangeVideoSite(\''+ key_s + '\');">' + categories[key_s] + '</a></p>';
+				//markup_o += '<div class="close-panel classA" onclick="ChangeVideoSite(\''+ key_s + '\')"><p><a id="onUrlClick" class="close-panel" onclick="ChangeVideoSite(\''+ key_s + '\');">' + categories[key_s] + '</a></p></div>';
+				markup_o += '<div class="classA"><p><a id="onUrlClick" class="close-panel" onclick="ChangeVideoSite(\''+ key_s + '\');">' + categories[key_s] + '</a></p></div>';
+				//markup_o += '<p><a id="onUrlClick" class="close-panel" onclick="ChangeVideoSite(\''+ key_s + '\');">' + categories[key_s] + '</a></p>';
 
 			$$("#idSidebar").html(markup_o);
 			getVideos("sahsiyet", true);

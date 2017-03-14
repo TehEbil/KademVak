@@ -10,7 +10,7 @@
             * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
                 * Enable inline JS: add 'unsafe-inline' to default-src
         -->
-    <!--meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; 'unsafe-inline'"-->
+    <!--meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *"-->
 
 	
     <!-- Required meta tags-->
@@ -50,14 +50,16 @@
     <div class="statusbar-overlay"></div>
 
     <!-- Panels overlay-->
-    <div class="panel-overlay"></div>
-    <div class="panel panel-left panel-reveal">
-        <div class="content-block">
+    <div class="panel-overlay" ></div>
+    <div id="idPanel" class="panel panel-left panel-reveal">
+        <div id="idAll" class="close-panel content-block clAll">
+            <p id="idLinks" class="clLinks" >KATEGORILER</p>
 			 <div id="idSidebar"></div>
-             <p><a href="program.html">YILI Faaliyet Programi</a></p>
-             <p><a href="about.html">About</a></p>
-			 <p><a href="#" class="close-panel">Kapa(t)mak</a></p>
+             <div class="toolbox">
+                 <div class="tool"> <a href="program.html">Faaliyetler</a> </div>
+                 <div class="tool"> <p><a href="about.html">About</a></p></div>
 			 
+			 </div>
         </div>
     </div>
 
@@ -68,19 +70,18 @@
             <!-- Top Navbar-->
             <div class="navbar">
                 <div class="navbar-inner">
-                    <img id="brrt" src="logo.png">
+                    <img id="brrrt" src="Unbenannt-3s.png">
+                    <!-- <img id="brrt" src="logo.png">
                     <!-- We need cool sliding animation on title element, so we have additional "sliding" class -->
-                    <div class="center sliding">
+                    <!--<div class="center sliding">
 						Öğrenci Gelişim Videoları
                     </div>
                     <!--div class="center sliding">Kadem Vakfi</div--> 
-                    <div class="right">
                         <!--
                           Right link contains only icon - additional "icon-only" class
                           Additional "open-panel" class tells app to open panel when we click on this link
                         -->
-                        <a href="#" class="link icon-only open-panel"><i class="icon icon-bars"></i></a>
-                    </div>
+                        <a href="#" class="link icon-only open-panel"><i class="icon"></i><img id="iconimg" src="Unbenannt-5.png"></a>
                 </div>
             </div>
             <!-- Pages container, because we use fixed-through navbar and toolbar, it has additional appropriate classes-->
@@ -89,17 +90,17 @@
                 <div data-page="index" class="page">
                     <!-- Scrollable page content -->
                     <div class="page-content">
-                        <div class="content-block">
+                        <div class="clMainVideoOuter content-block">
 						
 							<div class="clMainVideo" id="idMainVideo">
 								<div id="player"></div>
 							</div>
 							
-							<div id="idTest">
-							</div>
 						 
                         </div>
 						
+							<div id="idTest">
+							</div>
                     </div>
                 </div>
             </div>
@@ -108,8 +109,8 @@
     </div>
 
 
-    <script type="text/javascript" src="lib/framework7/js/framework7.min.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="lib/framework7/js/framework7.min.js"></script>
     <script type="text/javascript" src="js/my-app.js"></script>
 </body>
 
